@@ -2,14 +2,13 @@ module.exports = function(grunt) {
 
     // configure the tasks
     grunt.initConfig({
-
         copy: {
             build: {
                 cwd: 'dev',
                 src: [ '**', '!**/*.styl', '!**/*.jade' ],
                 dest: 'prod',
                 expand: true
-            },
+            }
         },
         stylus: {
             build: {
@@ -26,12 +25,17 @@ module.exports = function(grunt) {
                 }]
             }
         },
-        script: {
+        concat: {
+            options: {
+                separator: ';',
+            },
             build: {
-                expand: true,
-                cwd: 'dev',
-                src: [ '**/*.js' ],
-                dest: 'prod'
+                files: [
+                {
+                    src: ['dev/assets/vendor/*.js', 'dev/assets/scripts/main.js'],
+                    dest: 'prod/script.min.js'
+                }
+                ]
             }
         },
         autoprefixer: {
@@ -55,7 +59,7 @@ module.exports = function(grunt) {
                     mangle: false
                 },
                 files: {
-                    'prod/script.js': [ 'prod/**/*.js' ]
+                    'prod/script.min.js': [ 'prod/**/*.js' ]
                 }
             }
         },
@@ -67,7 +71,7 @@ module.exports = function(grunt) {
                 src: [ 'prod/**/*.css', '!prod/style.css' ]
             },
             scripts: {
-                src: [ 'prod/**/*.js', '!prod/script.js' ]
+                src: [ 'prod/**/*.js', '!prod/script.min.js' ]
             },
         },
         jade: {
@@ -78,7 +82,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'dev',
-                    src: [ '**/*.jade' ],
+                    src: [ '**/*.jade', '!**/_*.jade' ],
                     dest: 'prod',
                     ext: '.html'
                 }]
@@ -122,6 +126,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jade');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-contrib-stylus');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 
     // define the tasks
     grunt.registerTask(
@@ -133,7 +139,7 @@ module.exports = function(grunt) {
     grunt.registerTask(
         'scripts',
         'Compiles the JavaScript files.',
-        [ 'script', 'uglify', 'clean:scripts' ]
+        [ 'concat', 'uglify', 'clean:scripts' ]
     );
 
     grunt.registerTask(
