@@ -89,6 +89,9 @@ module.exports = function(grunt) {
             }
         },
         watch: {
+            options: {
+                livereload: true
+            },
             stylesheets: {
                 files: 'dev/**/*.styl',
                 tasks: [ 'stylesheets' ]
@@ -105,6 +108,10 @@ module.exports = function(grunt) {
                 files: [ 'dev/**', '!dev/**/*.styl', '!dev/**/*.js', '!dev/**/*.jade' ],
                 tasks: [ 'copy' ]
             }
+        },
+        cleanempty: {
+            options: {},
+            src: ['prod/**']
         },
         connect: {
             server: {
@@ -128,6 +135,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-stylus');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-cleanempty');
 
     // define the tasks
     grunt.registerTask(
@@ -151,6 +159,6 @@ module.exports = function(grunt) {
     grunt.registerTask(
         'build',
         'Compiles all of the assets and copies the files to the build directory.',
-        [ 'clean:build', 'copy', 'stylesheets', 'scripts', 'jade' ]
+        [ 'clean:build', 'copy', 'stylesheets', 'scripts', 'jade', 'cleanempty' ]
     );
 };
