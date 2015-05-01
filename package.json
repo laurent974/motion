@@ -32,6 +32,7 @@
   "homepage": "https://github.com/laurent974/motion",
   "devDependencies": {
     "grunt-cleanempty": "^1.0.3",
-    "grunt-contrib-concat": "^0.5.1"
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-imagemin": "^0.9.4"
   }
 }
