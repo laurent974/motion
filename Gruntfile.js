@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         cssmin: {
             build: {
                 files: {
-                    'prod/style.css': [ 'prod/**/*.css' ]
+                    'prod/style.min.css': [ 'prod/**/*.css' ]
                 }
             }
         },
@@ -68,11 +68,17 @@ module.exports = function(grunt) {
                 src: [ 'prod' ]
             },
             stylesheets: {
-                src: [ 'prod/**/*.css', '!prod/style.css' ]
+              src: [ 'prod/**/*.css', '!prod/style.min.css' ]
+            },
+            minstyle: {
+              src: [ 'prod/style.min.css']
             },
             scripts: {
-                src: [ 'prod/**/*.js', '!prod/script.min.js' ]
+              src: [ 'prod/**/**/*.js', '!prod/script.min.js' ]
             },
+            minscript: {
+              src: [ 'prod/script.min.js']
+            }
         },
         jade: {
             compile: {
@@ -147,13 +153,13 @@ module.exports = function(grunt) {
     grunt.registerTask(
         'scripts',
         'Compiles the JavaScript files.',
-        [ 'concat', 'uglify', 'clean:scripts' ]
+        [ 'clean:minscript', 'concat', 'uglify', 'clean:scripts', 'cleanempty' ]
     );
 
     grunt.registerTask(
         'stylesheets',
         'Compiles the stylesheets.',
-        [ 'stylus', 'autoprefixer', 'cssmin', 'clean:stylesheets' ]
+        [ 'clean:minstyle', 'stylus', 'autoprefixer', 'cssmin', 'clean:stylesheets', 'cleanempty' ]
     );
 
     grunt.registerTask(
