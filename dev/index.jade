@@ -1,8 +1,8 @@
-- pageTitle= "Motion - Responsive website"
+include views/variable
 doctype html
 html(lang="fr")
-    include views/_header
+  include views/_head
 
-    body
-        p blabla
-        script(src="script.min.js")
+  body
+    include views/_header
+    script(src="script.min.js")
